@@ -1,5 +1,6 @@
 package com.example.couponcore.model;
 
+import com.example.couponcore.exception.CouponIssueException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+
+import static com.example.couponcore.exception.ErrorCode.INVALID_COUPON_DATE;
+import static com.example.couponcore.exception.ErrorCode.INVALID_COUPON_QUANTITY;
 
 @Entity
 @Getter
@@ -43,4 +47,26 @@ public class Coupon extends BaseTimeEntity {
 
     @Column(nullable = false)
     private LocalDateTime issueEndDate;
+
+    public boolean verifyIssueQuantity() {
+        if (totalQuantity == null) {
+            return true;
+        }
+        return totalQuantity > issuedQuantity;
+    }
+
+    public boolean verifyIssueDate() {
+        LocalDateTime now = LocalDateTime.now();
+        return issueStartDate.isBefore(now) && issueEndDate.isAfter(now);
+    }
+
+    public void issue() {
+        if (!verifyIssueQuantity()) {
+            throw new CouponIssueException(INVALID_COUPON_QUANTITY, "쿠폰 발급 불가. 발급된 수 : %s".formatted(issuedQuantity));
+        }
+        if (!verifyIssueDate()) {
+            throw new CouponIssueException(INVALID_COUPON_DATE, "발급 가능 기간이 아닙니다.");
+        }
+        this.issuedQuantity++;
+    }
 }
