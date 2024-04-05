@@ -1,5 +1,6 @@
-package com.example.couponcore.exception;
+package com.example.couponcore.exception.custom;
 
+import com.example.couponcore.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter

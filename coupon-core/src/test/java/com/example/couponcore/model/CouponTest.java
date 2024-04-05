@@ -1,6 +1,6 @@
 package com.example.couponcore.model;
 
-import com.example.couponcore.exception.CouponIssueException;
+import com.example.couponcore.exception.custom.CouponIssueException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

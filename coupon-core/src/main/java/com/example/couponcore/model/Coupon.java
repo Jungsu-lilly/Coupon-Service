@@ -1,6 +1,6 @@
 package com.example.couponcore.model;
 
-import com.example.couponcore.exception.CouponIssueException;
+import com.example.couponcore.exception.custom.CouponIssueException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
