@@ -21,20 +21,20 @@ public class CouponIssueService {
 
     @Transactional
     public void issue(long couponId, long userId) {
-        Coupon coupon = getCoupon(couponId);
+        Coupon coupon = findCoupon(couponId);
         coupon.issue();
-        saveCouponIssuance(couponId, userId);
+        saveCouponIssue(couponId, userId);
     }
 
     @Transactional(readOnly = true)
-    public Coupon getCoupon(long couponId) {
+    public Coupon findCoupon(long couponId) {
         return couponJpaRepository.findById(couponId).orElseThrow(() -> {
-            throw new DataNotFoundException("Coupon Entity not found.");
+            throw new DataNotFoundException("OMG Coupon Entity not found.");
         });
     }
 
     @Transactional
-    public CouponIssuance saveCouponIssuance(long couponId, long userId) {
+    public CouponIssuance saveCouponIssue(long couponId, long userId) {
         checkCouponIssuance(couponId, userId);
         CouponIssuance couponIssuance = CouponIssuance.builder()
                 .couponId(couponId)

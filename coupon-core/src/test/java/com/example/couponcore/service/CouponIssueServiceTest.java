@@ -50,7 +50,7 @@ class CouponIssueServiceTest extends TestConfig {
         couponIssueJpaRepository.save(couponIssuance);
         // when
         ConflictException exception = assertThrows(ConflictException.class, () ->
-                couponIssueService.saveCouponIssuance(couponIssuance.getCouponId(), couponIssuance.getUserId())
+                couponIssueService.saveCouponIssue(couponIssuance.getCouponId(), couponIssuance.getUserId())
         );
 
         //then
@@ -64,7 +64,7 @@ class CouponIssueServiceTest extends TestConfig {
         long couponId = 1L;
         long userId = 1L;
         // when
-        CouponIssuance result = couponIssueService.saveCouponIssuance(couponId, userId);
+        CouponIssuance result = couponIssueService.saveCouponIssue(couponId, userId);
 
         // then
         assertTrue(couponIssueJpaRepository.findById(result.getId()).isPresent());
