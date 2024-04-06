@@ -1,5 +1,8 @@
 package com.example.couponcore.exception.common;
 
+import lombok.Getter;
+
+@Getter
 public class BaseException extends RuntimeException {
     int code;
 
