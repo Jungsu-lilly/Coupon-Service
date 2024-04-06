@@ -16,7 +16,7 @@ public class CouponIssueController {
 
     private final CouponIssueRequestService couponIssueRequestService;
 
-    @PostMapping("/v1/issue")
+    @PostMapping("/issue")
     public ResponseEntity<Void> issueCoupon(@RequestBody CouponIssueRequestDto issueRequest) {
         couponIssueRequestService.issueRequest(issueRequest);
         return ResponseEntity.ok().build();
