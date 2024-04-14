@@ -6,10 +6,10 @@ services:
       - "8089:8089"
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/locust-hello.py --master -H http://host.docker.internal:8080 # coupon-api 에 대한 테스트
+    command: -f /mnt/locust/locust-issue-mysql.py --master -H http://host.docker.internal:8080 # coupon-api 에 대한 테스트
 
   worker:
     image: locustio/locust
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/locust-hello.py --worker --master-host master
+    command: -f /mnt/locust/locust-issue-mysql.py --worker --master-host master

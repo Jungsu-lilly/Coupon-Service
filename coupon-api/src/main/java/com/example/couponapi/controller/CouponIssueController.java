@@ -16,9 +16,9 @@ public class CouponIssueController {
 
     private final CouponIssueRequestService couponIssueRequestService;
 
-    @PostMapping("/issue")
-    public ResponseEntity<Void> issueCoupon(@RequestBody CouponIssueRequestDto issueRequest) {
-        couponIssueRequestService.issueRequest(issueRequest);
+    @PostMapping("/issue/mysql")
+    public ResponseEntity<Void> issueCouponV1(@RequestBody CouponIssueRequestDto issueRequest) {
+        couponIssueRequestService.issueCouponV1(issueRequest);
         return ResponseEntity.ok().build();
     }
 }
