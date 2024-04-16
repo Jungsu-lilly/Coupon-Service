@@ -33,7 +33,6 @@ public class CouponIssueService {
         });
     }
 
-    @Transactional
     public CouponIssuance saveCouponIssue(long couponId, long userId) {
         checkCouponIssuance(couponId, userId);
         CouponIssuance couponIssuance = CouponIssuance.builder()
