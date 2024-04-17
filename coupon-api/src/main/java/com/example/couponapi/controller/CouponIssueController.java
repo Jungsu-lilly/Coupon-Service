@@ -21,4 +21,10 @@ public class CouponIssueController {
         couponIssueRequestService.issueCouponV1(issueRequest);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/issue/redis")
+    public ResponseEntity<Void> asyncIssue(@RequestBody CouponIssueRequestDto issueRequest) {
+        couponIssueRequestService.asyncIssueRequest(issueRequest);
+        return ResponseEntity.ok().build();
+    }
 }
