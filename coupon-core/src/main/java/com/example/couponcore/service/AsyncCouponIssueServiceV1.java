@@ -3,9 +3,9 @@ package com.example.couponcore.service;
 import com.example.couponcore.component.DistributeLockExecutor;
 import com.example.couponcore.exception.common.BaseException;
 import com.example.couponcore.exception.common.ConflictException;
-import com.example.couponcore.model.Coupon;
 import com.example.couponcore.repository.redis.RedisRepository;
 import com.example.couponcore.repository.redis.dto.CouponIssueRequest;
+import com.example.couponcore.repository.redis.dto.CouponRedisEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,18 +22,15 @@ public class AsyncCouponIssueServiceV1 {
     private final RedisCouponIssueService redisCouponIssueService;
     private final CouponIssueService couponIssueService;
     private final DistributeLockExecutor distributeLockExecutor;
+    private final CouponCacheService couponCacheService;
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public void issue(long couponId, long userId) {
-        Coupon coupon = couponIssueService.findCoupon(couponId);
+        CouponRedisEntity coupon = couponCacheService.getCouponCache(couponId);
+        coupon.checkIssuableCoupon();
 
-        if (!coupon.verifyIssueDate()) {
-            throw new BaseException(400, "발급 가능한 일자가 아닙니다. couponId : %s 날짜를 다시 확인해주세요.".formatted(couponId));
-        }
-
-        // 동시성 제어 - 분산 락
         distributeLockExecutor.execute("lock_%s".formatted(couponId), 2000, 2000, () -> {
-            if (!redisCouponIssueService.availableTotalIssueQuantity(coupon.getTotalQuantity(), couponId)) {
+            if (!redisCouponIssueService.availableTotalIssueQuantity(coupon.totalQuantity(), couponId)) {
                 throw new BaseException(400, "쿠폰 발급 가능한 수량이 초과되었습니다. couponId : %s, userId : %s".formatted(couponId, userId));
             }
             if (!redisCouponIssueService.availableUserIssueQuantity(couponId, userId)) {

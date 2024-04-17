@@ -2,8 +2,8 @@ package com.example.couponapi.service;
 
 import com.example.couponapi.dto.CouponIssueRequestDto;
 import com.example.couponcore.component.DistributeLockExecutor;
+import com.example.couponcore.service.AsyncCouponIssueServiceV1;
 import com.example.couponcore.service.CouponIssueService;
-import com.example.couponcore.service.RedisCouponIssueService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class CouponIssueRequestService {
 
     private final CouponIssueService couponIssueService;
-    private final RedisCouponIssueService redisCouponIssueService;
+    private final AsyncCouponIssueServiceV1 asyncCouponIssueServiceV1;
     private final DistributeLockExecutor distributeLockExecutor;
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
@@ -28,7 +28,7 @@ public class CouponIssueRequestService {
     }
 
     public void asyncIssueRequest(CouponIssueRequestDto requestDto) {
-        redisCouponIssueService.issue(requestDto.couponId(), requestDto.userId());
+        asyncCouponIssueServiceV1.issue(requestDto.couponId(), requestDto.userId());
         log.info("쿠폰 발급 완료. couponId: %s, userId: %s".formatted(requestDto.couponId(), requestDto.userId()));
     }
 }
