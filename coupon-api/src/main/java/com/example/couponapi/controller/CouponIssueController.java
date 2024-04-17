@@ -22,7 +22,7 @@ public class CouponIssueController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/issue/redis")
+    @PostMapping("/issue/async")
     public ResponseEntity<Void> asyncIssue(@RequestBody CouponIssueRequestDto issueRequest) {
         couponIssueRequestService.asyncIssueRequest(issueRequest);
         return ResponseEntity.ok().build();
