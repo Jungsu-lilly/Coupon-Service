@@ -21,7 +21,7 @@ public class RedisCouponIssueService {
 
     // 레디스를 통한 중복 요청에 대한 검증
     public boolean availableUserIssueQuantity(long couponId, long userId) {
-        String key = "";
+        String key = CouponRedisUtils.getIssueRequestKey(couponId);
         return !redisRepository.sIsMember(key, String.valueOf(userId));
     }
 }
