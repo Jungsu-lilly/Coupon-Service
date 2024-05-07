@@ -17,20 +17,14 @@ public class CouponIssueController {
     private final CouponIssueRequestService couponIssueRequestService;
 
     @PostMapping("/issue/mysql")
-    public ResponseEntity<Void> issueCouponV1(@RequestBody CouponIssueRequestDto issueRequest) {
-        couponIssueRequestService.issueCouponV1(issueRequest);
+    public ResponseEntity<Void> issueCoupon(@RequestBody CouponIssueRequestDto issueRequest) {
+        couponIssueRequestService.issueCoupon(issueRequest);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/issue/async/v1")
-    public ResponseEntity<Void> asyncIssueV1(@RequestBody CouponIssueRequestDto issueRequest) {
-        couponIssueRequestService.asyncIssueRequestV1(issueRequest);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/issue/async/v2")
-    public ResponseEntity<Void> asyncIssueV2(@RequestBody CouponIssueRequestDto issueRequest) {
-        couponIssueRequestService.asyncIssueRequestV2(issueRequest);
+    @PostMapping("/issue/async")
+    public ResponseEntity<Void> asyncIssue(@RequestBody CouponIssueRequestDto issueRequest) {
+        couponIssueRequestService.asyncIssueRequest(issueRequest);
         return ResponseEntity.ok().build();
     }
 }
