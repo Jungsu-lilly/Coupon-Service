@@ -1,6 +1,7 @@
 package com.example.couponcore.repository.redis.dto;
 
-import com.example.couponcore.exception.common.BaseException;
+import com.example.couponcore.exception.ErrorCode;
+import com.example.couponcore.exception.custom.CouponIssueException;
 import com.example.couponcore.model.Coupon;
 import com.example.couponcore.model.CouponType;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -14,6 +15,7 @@ public record CouponRedisEntity(
         Long id,
         CouponType couponType,
         Integer totalQuantity,
+        boolean issuanceQuantityAvailable,
 
         @JsonSerialize(using = LocalDateTimeSerializer.class)
         @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -28,19 +30,23 @@ public record CouponRedisEntity(
                         coupon.getId(),
                         coupon.getType(),
                         coupon.getTotalQuantity(),
+                        coupon.verifyIssueQuantity(),
                         coupon.getIssueStartDate(),
                         coupon.getIssueEndDate()
                 );
         }
 
-        private boolean availableIssueDate() {
+        private boolean checkIssuanceDate() {
                 LocalDateTime now = LocalDateTime.now();
                 return issueStartDate.isBefore(now) && issueEndDate.isAfter(now);
         }
 
-        public void checkIssuableCoupon() {
-                if (!availableIssueDate()) {
-                        throw new BaseException(400, "발급 가능한 일자가 아닙니다.");
+        public void checkIfIssuable() {
+                if (!issuanceQuantityAvailable) {
+                        throw new CouponIssueException(ErrorCode.INVALID_COUPON_QUANTITY, "모든 발급 수량이 소진되었습니다. coupon_id : %s".formatted(id));
+                }
+                if (!checkIssuanceDate()) {
+                        throw new CouponIssueException(ErrorCode.INVALID_COUPON_QUANTITY, "발급 가능한 일자가 아닙니다.");
                 }
         }
 }

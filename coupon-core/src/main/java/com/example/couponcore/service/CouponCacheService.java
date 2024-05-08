@@ -13,7 +13,7 @@ public class CouponCacheService {
     private final CouponIssueService couponIssueService;
 
     @Cacheable(cacheNames = "coupon")
-    public CouponRedisEntity getCouponCache(long couponId) {
+    public CouponRedisEntity getCachedCoupon(long couponId) {
         Coupon coupon = couponIssueService.findCoupon(couponId);
         return new CouponRedisEntity(coupon);
     }

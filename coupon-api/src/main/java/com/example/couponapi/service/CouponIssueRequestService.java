@@ -18,24 +18,21 @@ public class CouponIssueRequestService {
 
     private final CouponIssueService couponIssueService;
     private final AsyncCouponIssueServiceV1 asyncCouponIssueServiceV1;
+
     private final AsyncCouponIssueServiceV2 asyncCouponIssueServiceV2;
     private final DistributeLockExecutor distributeLockExecutor;
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
-    public void issueCouponV1(CouponIssueRequestDto requestDto) {
+    public void issueCoupon(CouponIssueRequestDto requestDto) {
         distributeLockExecutor.execute("lock_" + requestDto.couponId(), 10000, 10000, () -> {
             couponIssueService.issue(requestDto.couponId(), requestDto.userId());
         });
         log.info("쿠폰 발급 완료. couponId: %s, userId: %s".formatted(requestDto.couponId(), requestDto.userId()));
     }
 
-    public void asyncIssueRequestV1(CouponIssueRequestDto requestDto) {
-        asyncCouponIssueServiceV1.issue(requestDto.couponId(), requestDto.userId());
-        log.info("쿠폰 발급 완료. couponId: %s, userId: %s".formatted(requestDto.couponId(), requestDto.userId()));
-    }
 
-    public void asyncIssueRequestV2(CouponIssueRequestDto requestDto) {
-        asyncCouponIssueServiceV2.issue(requestDto.couponId(), requestDto.userId());
-        log.info("쿠폰 발급 완료. couponId: %s, userId: %s".formatted(requestDto.couponId(), requestDto.userId()));
+    public void asyncIssueRequest(CouponIssueRequestDto couponIssueRequest) {
+        asyncCouponIssueServiceV2.issue(couponIssueRequest.couponId(), couponIssueRequest.userId());
+        log.info("쿠폰 발급 완료. couponId: %s, userId: %s".formatted(couponIssueRequest.couponId(), couponIssueRequest.userId()));
     }
 }
