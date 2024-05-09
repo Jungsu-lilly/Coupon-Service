@@ -27,7 +27,7 @@ public class CouponIssueListener {
 
     /**
      * 주기적으로 스케쥴링 */
-    @Scheduled(fixedDelay = 1000L)
+    @Scheduled(fixedDelay = 1000)
     public void issue() throws JsonProcessingException {
         log.info("listen...");
 
