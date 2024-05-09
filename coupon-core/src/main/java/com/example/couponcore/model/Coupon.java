@@ -60,6 +60,11 @@ public class Coupon extends BaseTimeEntity {
         return issueStartDate.isBefore(now) && issueEndDate.isAfter(now);
     }
 
+    public boolean isIssueComplete() {
+        LocalDateTime now = LocalDateTime.now();
+        return issueEndDate.isBefore(now) || !verifyIssueQuantity();
+    }
+
     public void issue() {
         if (!verifyIssueQuantity()) {
             throw new CouponIssueException(INVALID_COUPON_QUANTITY, "쿠폰 발급 불가. 발급된 수 : %s".formatted(issuedQuantity));

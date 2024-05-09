@@ -22,7 +22,7 @@ public class AsyncCouponIssueServiceV1 {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public void issue(long couponId, long userId) {
-        CouponRedisEntity coupon = couponCacheService.getCachedCoupon(couponId);
+        CouponRedisEntity coupon = couponCacheService.getCouponCache(couponId);
 
         redisCouponIssueService.verifyCouponIssuance(coupon, userId);
         issueCoupon(couponId, userId);

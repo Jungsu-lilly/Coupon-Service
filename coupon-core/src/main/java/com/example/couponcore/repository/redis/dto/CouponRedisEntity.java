@@ -15,7 +15,7 @@ public record CouponRedisEntity(
         Long id,
         CouponType couponType,
         Integer totalQuantity,
-        boolean issuanceQuantityAvailable,
+        boolean availableIssueQuantity,
 
         @JsonSerialize(using = LocalDateTimeSerializer.class)
         @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -42,7 +42,7 @@ public record CouponRedisEntity(
         }
 
         public void checkIfIssuable() {
-                if (!issuanceQuantityAvailable) {
+                if (!availableIssueQuantity) {
                         throw new CouponIssueException(ErrorCode.INVALID_COUPON_QUANTITY, "모든 발급 수량이 소진되었습니다. coupon_id : %s".formatted(id));
                 }
                 if (!checkIssuanceDate()) {
