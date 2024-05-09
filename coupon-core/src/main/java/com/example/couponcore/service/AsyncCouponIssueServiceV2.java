@@ -13,7 +13,7 @@ public class AsyncCouponIssueServiceV2 {
     private final CouponCacheService couponCacheService;
 
     public void issue(long couponId, long userId) {
-        CouponRedisEntity coupon = couponCacheService.getCachedCoupon(couponId);
+        CouponRedisEntity coupon = couponCacheService.getCouponLocalCache(couponId);
         coupon.checkIfIssuable();
         issueRequest(couponId, userId, coupon.totalQuantity());
     }
