@@ -19,13 +19,17 @@
 ### 시스템 구조
 <img width="749" alt="스크린샷 2024-05-12 오전 2 52 22" src="https://github.com/Jungsu-lilly/Coupon-Service/assets/56336436/c2c13aa1-a249-4387-abed-d6fbade6f6ad">
 
-- Reids를 채택해 비동기 구조로 서버를 구현,
-- 빠른 연산을 통해 성능을 향상시켰습니다.
-<br> 
+<br> <br>
+
 
 ### Trouble-Shooting & 성능 개선
-- 분산 락으로 동시성 이슈를 해결했습니다.
-- 링크 : https://matt1235.tistory.com/73
+- 분산 락을 통한 동시성 이슈 해결
+  - https://matt1235.tistory.com/73
+<br>
 
-- 병목 지점을 찾아, 서버 RPS를 5배 향상 시켰습니다.
-- 링크 : https://matt1235.tistory.com/75
+- 병목 지점을 찾아, rps 를 약 5배 향상시켰습니다.
+  - https://matt1235.tistory.com/75
+<br>
+
+- 약 29만 건의 요청에 대하여 Failure 는 90건 → 0.03% 실패율
+- 최대 2000명의 유저가 동시에 요청을 보내도, 99.97% 확률로 성공하는 서버를 구축했습니다.
